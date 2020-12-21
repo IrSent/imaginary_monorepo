@@ -77,6 +77,9 @@ class ServiceClient:
                     response.raise_for_status()
                     data = await response.json()
                     print(f'Response data: {data}')
+            except aiohttp.web.HTTPUnauthorized as e:
+                print(e)
+                await self.set_renew_token()
             except aiohttp.ClientError as e:
                 print(e)
                 retries += 1
@@ -84,7 +87,6 @@ class ServiceClient:
                     print('Max retries reached')
                     break
             # except the expired token error and renew it
-            # self.set_renew_token()
         return data
 
     async def get_page(self, session, page_num: int = 1):
@@ -177,10 +179,13 @@ class ServiceClient:
                 page_num += 1
         print(f'load_cache end')
 
-    def find_images_by_term(self, term: str):
+    def find_images_by_term(self, term: str) -> list:
         results = []
         for idx_key in self.index.keys():
             if term in idx_key:
-                results += [self.items[item_id]
-                            for item_id in self.index[idx_key]]
-        return results
+                res = [self.items[item_id]
+                       for item_id in self.index[idx_key]]
+                results += res
+        # ensure unique results
+        # https://stackoverflow.com/a/38521207/5672940
+        return [dict(s) for s in set(frozenset(d.items()) for d in results)]
