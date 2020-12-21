@@ -64,5 +64,5 @@ chmod +x ./pants
 
 ## 3. Run pex_binary target
 ```
-$ ./pants run src/python/imaginary_search:service
+$ API_KEY=SET_CORRECT_API_KEY ./pants run src/python/imaginary_search
 ```
