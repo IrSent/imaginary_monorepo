@@ -118,4 +118,4 @@ charts/**/charts/
 /.pants.workdir.file_lock*
 
 dbs/
-images/
+images/*
