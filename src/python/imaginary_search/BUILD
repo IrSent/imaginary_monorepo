@@ -1,0 +1,21 @@
+python_library(
+    name="service_lib",
+    sources=[
+        "client.py",
+        "main.py",
+        "!tests.py",
+    ],
+    compatibility=[">=3.8"],
+    dependencies=[
+        "//:aiofiles",
+        "//:aiohttp",
+    ]
+)
+
+pex_binary(
+    name="service",
+    dependencies=[
+        ":service_lib",
+    ],
+    entry_point="imaginary_search.main:main",
+)

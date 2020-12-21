@@ -1,0 +1,33 @@
+[GLOBAL]
+pants_version = "2.0.0"
+# build_ignore = ["src/python"]
+# dynamic_ui = true
+pantsd = false
+backend_packages = [
+    "pants.backend.python",
+    "pants.backend.python.lint.bandit",
+    "pants.backend.python.lint.black",
+    "pants.backend.python.lint.isort",
+    "pants.backend.python.typecheck.mypy",
+]
+pants_distdir_legacy_paths = false
+
+[ipython]
+version = "ipython>=7.15.0"
+
+[source]
+root_patterns = [
+    "src/python",
+]
+
+[python-setup]
+interpreter_constraints = ["CPython==3.8.*"]
+
+[pytest]
+pytest_plugins.add = ["ipdb"]
+args = ["-s", "-v"]
+# timeout_default = 60
+# timeout_maximum = 600
+
+[repl]
+shell = "ipython"
